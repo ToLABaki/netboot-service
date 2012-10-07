@@ -64,22 +64,23 @@ set menu-timeout 30
 
 :start
 menu LABaki Boot Menu
-item --gap 		-- Boot an operating system:
-item labdebian		Debian for LABaki clients
+item --gap              -- Boot an operating system:
+item labdebian          Debian for LABaki clients
 item --gap
-item --gap		-- Install OS on your local computer:
+item --gap              -- Install OS on your local computer:
 <?php
 foreach($distros as $class_name => $releases) {
     echo "item {$class_name::$name}-install-menu  {$class_name::$pretty_name}  >\n";
 }
 ?>
 item --gap
-item --gap 		-- Advanced options:
-item config		Configure settings
-item shell		iPXE shell
-item reboot		Reboot computer
+item --gap              -- Advanced options:
+item config             Configure settings
+item shell              iPXE shell
+item cpuinfo            CPU Information
+item reboot             Reboot computer
 item --gap
-item --key x exit	Exit iPXE / Continue BIOS boot
+item --key x exit       Exit iPXE / Continue BIOS boot
 choose --timeout ${menu-timeout} --default labdebian selected || goto exit
 set menu-timeout 0
 goto ${selected}
@@ -102,6 +103,20 @@ exit
 :config
 config
 goto start
+
+:cpuinfo
+cpuid --ext 29 && set arch:string x86_64 || set arch:string i386
+cpuid --ecx 5 && set vmx yes ||
+cpuid --ext --ecx 2 && set svm yes ||
+isset ${vmx} || isset ${svm} && set hw_virt:string yes || set hw_virt:string no
+menu CPU Information
+item --gap              CPU Architecture: ${arch:string}
+item --gap              HW Virtualization: ${hw_virt:string}
+item --gap
+item start              Return to main menu
+choose selected || goto start
+goto ${selected}
+
 
 ## OPERATING SYSTEMS
 
