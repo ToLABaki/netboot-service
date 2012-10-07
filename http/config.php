@@ -2,12 +2,12 @@
 
 $distros = array(
     "Debian" => array(
-        new Debian('testing', 'Testing', 'amd64', 'ftp://ftp.cc.uoc.gr/mirrors/linux/debian/'),
-        new Debian('testing', 'Testing', 'i386', 'ftp://ftp.cc.uoc.gr/mirrors/linux/debian/'),
-        new Debian('stable', 'Stable', 'amd64', 'ftp://ftp.cc.uoc.gr/mirrors/linux/debian/'),
-        new Debian('stable', 'Stable', 'i386', 'ftp://ftp.cc.uoc.gr/mirrors/linux/debian/'),
-        new Debian('wheezy', 'Wheezy', 'amd64', 'ftp://ftp.cc.uoc.gr/mirrors/linux/debian/'),
-        new Debian('wheezy', 'Wheezy', 'i386', 'ftp://ftp.cc.uoc.gr/mirrors/linux/debian/'),
+        new Debian('testing', 'Testing', 'amd64', 'http://ftp.cc.uoc.gr/mirrors/linux/debian/'),
+        new Debian('testing', 'Testing', 'i386', 'http://ftp.cc.uoc.gr/mirrors/linux/debian/'),
+        new Debian('stable', 'Stable', 'amd64', 'http://ftp.cc.uoc.gr/mirrors/linux/debian/'),
+        new Debian('stable', 'Stable', 'i386', 'http://ftp.cc.uoc.gr/mirrors/linux/debian/'),
+        new Debian('wheezy', 'Wheezy', 'amd64', 'http://ftp.cc.uoc.gr/mirrors/linux/debian/'),
+        new Debian('wheezy', 'Wheezy', 'i386', 'http://ftp.cc.uoc.gr/mirrors/linux/debian/'),
     ),
     "Ubuntu" => array(
         new Ubuntu('quantal', 'Quantal Quetzal (12.10)', 'amd64', 'http://ftp.cc.uoc.gr/mirrors/linux/ubuntu/packages/'),
