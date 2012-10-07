@@ -5,11 +5,13 @@ abstract class Distribution
     public $release;
     public $pretty_release;
     public $architecture;
+    protected $mirror_root;
 
-    function __construct($release, $pretty_release, $arch) {
+    function __construct($release, $pretty_release, $arch, $mirror_root) {
         $this->release = $release;
         $this->pretty_release = $pretty_release;
         $this->architecture = $arch;
+        $this->mirror_root = $mirror_root;
     }
 
     public function getName() { $c = get_class($this); return $c::$name; }
@@ -28,12 +30,9 @@ class Debian extends Distribution
     public static $pretty_name = 'Debian';
 
     public function outputIPXEBootCommands() {
-        echo "set 210:string {$GLOBALS['installers_root']}/{$this->getName()}/{$this->release}/{$this->architecture}/\n";
-        if (!strstr($this->architecture, 'kfreebsd')) {
-            echo 'kernel ${210:string}pxelinux.0' . "\n";
-        } else {
-            echo 'kernel ${210:string}grub2pxe' . "\n";
-        }
+        $url = "{$this->mirror_root}dists/{$this->release}/main/installer-{$this->architecture}/current/images/netboot/";
+        echo "set 210:string {$url}\n";
+        echo "kernel ${url}pxelinux.0\n";
     }
 }
 
@@ -41,6 +40,18 @@ class Ubuntu extends Debian
 {
     public static $name = 'ubuntu';
     public static $pretty_name = 'Ubuntu';
+}
+
+class Fedora extends Distribution
+{
+    public static $name = 'fedora';
+    public static $pretty_name = 'Fedora';
+
+    public function outputIPXEBootCommands() {
+        $url = "{$this->mirror_root}releases/{$this->release}/Fedora/{$this->architecture}/os/";
+        echo "kernel {$url}images/pxeboot/vmlinuz repo={$url}\n";
+        echo "initrd {$url}images/pxeboot/initrd.img\n";
+    }
 }
 
 include 'config.php';
