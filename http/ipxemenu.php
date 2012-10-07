@@ -54,6 +54,18 @@ class Fedora extends Distribution
     }
 }
 
+class OpenSuse extends Distribution
+{
+    public static $name = 'opensuse';
+    public static $pretty_name = 'OpenSuSE';
+
+    public function outputIPXEBootCommands() {
+        $url = "{$this->mirror_root}distribution/{$this->release}/repo/oss/";
+        echo "kernel {$url}boot/{$this->architecture}/loader/linux splash=silent showopts install={$url}\n";
+        echo "initrd {$url}boot/{$this->architecture}/loader/initrd\n";
+    }
+}
+
 include 'config.php';
 
 ?>
