@@ -76,9 +76,11 @@ set menu-timeout 30
 
 :start
 menu LABaki Boot Menu
+<?php if (!strcmp($_GET["ltsp"], "enable")) { ?>
 item --gap              -- Boot an operating system:
-item labdebian          Debian for LABaki clients
+item labdebian          Debian LTSP fat client for LABaki
 item --gap
+<?php } ?>
 item --gap              -- Install OS on your local computer:
 <?php
 foreach($distros as $class_name => $releases) {
@@ -133,6 +135,9 @@ goto ${selected}
 ## OPERATING SYSTEMS
 
 :labdebian
+kernel http://boot.tolabaki.her.wn/ltsp/i386/vmlinuz ro root=/dev/nfs nfsroot=/srv/ltsp/i386 ip=dhcp boot=nfs init=/sbin/init-ltsp
+initrd http://boot.tolabaki.her.wn/ltsp/i386/initrd.img
+boot || goto failed
 goto start
 
 ## INSTALL-MENU
